@@ -2,11 +2,17 @@ import jwt from 'jsonwebtoken';
 import { config } from '../config';
 import { userRepository } from '../repositories';
 import { hashPassword, checkPassword } from '../utils/hash';
+import { User } from '../models';
 
 export interface TokenPair {
   access_token: string;
   refresh_token: string;
   expires_in: number;
+}
+
+function stripPassword(user: User): Omit<User, 'password'> {
+  const { password, ...userWithoutPassword } = user;
+  return userWithoutPassword;
 }
 
 export const authService = {
@@ -24,7 +30,7 @@ export const authService = {
       role: 'user',
     });
 
-    return user;
+    return stripPassword(user);
   },
 
   async login(email: string, password: string) {
@@ -43,7 +49,7 @@ export const authService = {
     }
 
     const tokens = generateTokenPair(user.id, user.email, user.role);
-    return { user, tokens };
+    return { user: stripPassword(user), tokens };
   },
 
   async refreshToken(refreshTokenStr: string): Promise<TokenPair> {
@@ -74,7 +80,7 @@ export const authService = {
     if (!user) {
       throw new Error('user not found');
     }
-    return user;
+    return stripPassword(user);
   },
 };
 
