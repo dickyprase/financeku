@@ -6,7 +6,7 @@ VALUES (
     'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
     'Admin',
     'admin@financeku.com',
-    '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy',
+    '$2b$10$7otIdbN6PsItOq2GMxvIaOYoBa5e3YtAvy2Szg4Nb9sAFu9H6N5zW',
     'admin',
     5000000,
     30000
