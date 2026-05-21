@@ -13,7 +13,7 @@ Menggabungkan overtime tracker + personal finance menjadi 1 aplikasi:
 
 ```
 financeku/
-├── backend/       # Go REST API (Phase 1) ✅
+├── backend/       # Node.js + Express + TypeScript REST API (Phase 1) ✅
 ├── web/           # Laravel + Livewire (Phase 2) 🔜
 └── android/       # Kotlin + Jetpack Compose (Phase 3) 🔜
 ```
@@ -22,7 +22,7 @@ financeku/
 
 | Layer | Technology |
 |-------|-----------|
-| Backend | Go 1.22+ (net/http native) + PostgreSQL |
+| Backend | Node.js 20+ (Express + TypeScript) + PostgreSQL |
 | Web | Laravel 11 + Livewire 3 + Tailwind CSS |
 | Android | Kotlin + Jetpack Compose + Material 3 |
 | Auth | JWT (access + refresh token) |
@@ -39,9 +39,9 @@ docker-compose up -d
 
 # Manual
 cp .env.example .env
-go mod tidy
-make migrate-seed
-make dev
+npm install
+npm run seed
+npm run dev
 ```
 
 API berjalan di `http://localhost:8080`

@@ -1,36 +1,28 @@
-BINARY_NAME=financeku
-BUILD_DIR=./cmd/api
+.PHONY: dev build start test clean migrate seed docker-up docker-down install
 
-.PHONY: build run dev test clean migrate seed docker-up docker-down
-
-build:
-	go build -o $(BINARY_NAME) $(BUILD_DIR)
-
-run: build
-	./$(BINARY_NAME)
+install:
+	npm install
 
 dev:
-	go run $(BUILD_DIR)/main.go
+	npm run dev
 
-seed:
-	go run $(BUILD_DIR)/main.go --seed
+build:
+	npm run build
+
+start: build
+	npm start
 
 migrate:
-	go run ./cmd/migrate/main.go
+	npm run migrate
 
-migrate-seed:
-	go run ./cmd/migrate/main.go --seed
+seed:
+	npm run seed
 
 test:
-	go test ./... -v
-
-test-coverage:
-	go test ./... -coverprofile=coverage.out
-	go tool cover -html=coverage.out -o coverage.html
+	npm test
 
 clean:
-	rm -f $(BINARY_NAME)
-	rm -f coverage.out coverage.html
+	rm -rf dist node_modules
 
 docker-up:
 	docker-compose up -d
@@ -41,13 +33,5 @@ docker-down:
 docker-build:
 	docker-compose build
 
-tidy:
-	go mod tidy
-
-fmt:
-	go fmt ./...
-
-vet:
-	go vet ./...
-
-lint: fmt vet
+lint:
+	npm run lint

@@ -1,22 +1,25 @@
-FROM golang:1.22-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
-RUN go mod download
+COPY package.json package-lock.json* ./
+RUN npm install
 
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -o /financeku ./cmd/api
+RUN npm run build
 
-FROM alpine:3.19
+FROM node:20-alpine
 
 RUN apk --no-cache add ca-certificates tzdata
 ENV TZ=Asia/Jakarta
 
 WORKDIR /app
-COPY --from=builder /financeku .
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/migrations ./migrations
 COPY .env.example .env
 
 EXPOSE 8080
 
-CMD ["./financeku"]
+CMD ["node", "dist/server.js"]
