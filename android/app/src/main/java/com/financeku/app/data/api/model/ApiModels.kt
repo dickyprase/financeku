@@ -34,9 +34,17 @@ data class RefreshTokenRequest(
 )
 
 data class AuthResponse(
+    val tokens: TokensDto?,
+    val user: UserDto?
+) {
+    val accessToken: String get() = tokens?.accessToken ?: ""
+    val refreshToken: String get() = tokens?.refreshToken ?: ""
+}
+
+data class TokensDto(
     @SerializedName("access_token") val accessToken: String,
     @SerializedName("refresh_token") val refreshToken: String,
-    val user: UserDto?
+    @SerializedName("expires_in") val expiresIn: Int?
 )
 
 data class UserDto(

@@ -14,7 +14,7 @@ interface ApiService {
     suspend fun register(@Body request: RegisterRequest): Response<ApiResponse<AuthResponse>>
 
     @POST("auth/refresh")
-    suspend fun refreshToken(@Body request: RefreshTokenRequest): Response<ApiResponse<AuthResponse>>
+    suspend fun refreshToken(@Body request: RefreshTokenRequest): Response<ApiResponse<TokensDto>>
 
     @GET("auth/me")
     suspend fun getMe(): Response<ApiResponse<UserDto>>
